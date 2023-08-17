@@ -37,27 +37,40 @@ def customer_transaction():
 
         print("Enter 1 to deposit")
         print("Enter 2 to withdraw")
-        print("Enter 3 to check balance\n")
+        print("Enter 3 to check balance")
+        print("Enter 4 to exit\n")
 
-        transaction = int(input("Enter option: "))
+        try:
+            entered = int(input("Enter option: "))
+            
+            if entered == 1:
+                print("\nHow much would you like to deposit? (Maximum of 50000)")
+                break
+            elif entered == 2:
+                print("\nHow much would you like to withdraw? (Maximum of 50000)")
+                break
+            elif entered == 3:
+                print("\nYour balance is ")
+                break
+            elif entered == 4:
+                print("\nExit")
+                break
+            else:
+                print(f"You entered '{entered}', Please enter a valid option (1 - 4)\n")     
 
-        if transaction == 1:
-            print("\nHow much would you like to deposit?")
-        elif transaction == 2:
-            print("\nHow much would you like to withdraw?")
-        elif transaction == 3:
-            print("\nYour balance is ")
-        else:
-            print("Please enter a valid option\n")
-        break
+        except ValueError :
+            print(f"You entered '{entered}', Please enter a valid option (1 - 4)\n")
+
+        
     
-    amount = int(input("Amount($): "))
+    amount = int(input("Amount($): \n"))
+    print(f"{amount}")
 
 
+"""
+Run all the functions in the program
+"""
 def main():
-    """
-    Run all the functions in the program
-    """
     register_customer()
     customer_transaction()
 
