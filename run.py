@@ -16,6 +16,8 @@ SCOPED_CREDS = CREDS.with_scopes(SCOPE)
 GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open('attempt_bank')
 
+
+
 """
 A function to take details from customer and 
 register the customer
@@ -30,7 +32,12 @@ def register_customer():
 
 """
 This function allows a customer to make transactions
+Checks the transaction selected by the user and
+validates the input
 """
+# Declaring a global list to hold entries
+entered_list = []
+
 def customer_transaction():
     while True:
         print(f"What would you like to do?\n")
@@ -42,6 +49,7 @@ def customer_transaction():
 
         try:
             entered = int(input("Enter option: "))
+            entered_list.append(entered)
             
             if entered == 1:
                 print("\nHow much would you like to deposit? (Maximum of 50000)")
@@ -57,15 +65,31 @@ def customer_transaction():
                 break
             else:
                 print(f"You entered '{entered}', Please enter a valid option (1 - 4)\n")     
-
-        except ValueError :
-            print(f"You entered '{entered}', Please enter a valid option (1 - 4)\n")
-
-        
+                
+        except ValueError:
+            print(f"Invalid data, please try again.\n")
     
     amount = int(input("Amount($): \n"))
-    print(f"{amount}")
+    new_balance = deposit(amount)
 
+"""
+Handles the deposits of customers
+"""
+def deposit(credited):
+
+    initial_balance = 0
+
+    for enter in range(len(entered_list)):
+        if entered_list[enter] == 1:
+            updated_balance = initial_balance + credited
+            print(f"\nAccount balance has been updated : ${updated_balance}")
+
+            initial_balance += updated_balance
+
+            break
+
+    
+    
 
 """
 Run all the functions in the program
