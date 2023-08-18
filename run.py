@@ -29,6 +29,8 @@ def register_customer():
 
     print(f"\nYou are welcome {customer_name}!")
 
+    
+
 
 """
 This function allows a customer to make transactions
@@ -92,7 +94,7 @@ def deposit(credited):
     
 
 """
-Run all the functions in the program
+Runs all the functions in the program
 """
 def main():
     register_customer()
@@ -100,7 +102,7 @@ def main():
 
 
 """
-Print a welcome message
+Prints a welcome message
 """
 print("\n************************")
 print("Welcome to ATTEMPT BANK")
