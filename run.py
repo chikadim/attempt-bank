@@ -72,7 +72,10 @@ def register_customer():
         break
 
     print(f"\nYou are welcome {customer_name}!")
-    print(f"({customer_name}, {customer_gender}, {customer_age}years old)")
+    print(f"({customer_name}, {customer_gender}, {customer_age}years old)\n")
+    print(f"You have a starting balance of 2000. Enjoy!\n")
+
+
 
     return customer_name, customer_gender, customer_age
 
@@ -102,27 +105,30 @@ def customer_intention():
             entered_list.append(entered)
 
             if entered == 1:
-                print("\nHow much would you like to deposit?(Max of 50000)")
+                print("\nHow much would you like to deposit?(Max of 2000)")
                 deposit()
                 process_deposit()
                 break
             elif entered == 2:
-                print("\nHow much would you like to withdraw?(Max of 50000)")
+                print("\nHow much would you like to withdraw?(Max of 2000)")
                 withdrawal()
                 process_withdrawal()
                 break
             elif entered == 3:
-                print("\nYour balance is")
-                check_balance()
+                customer_balance = check_balance()
+                print(f"\nYour balance is {customer_balance}")
+                print("Thank you")
                 break
             elif entered == 4:
                 print("\nExit")
+                exit()
+                print(f"restarting...")
                 break
             else:
                 print(f"You entered '{entered}', Please option are (1 - 4)\n")
         except ValueError:
             print(f"Invalid data, please try again.\n")
-            break
+            
 
 
 deposit_amount = 0
@@ -136,8 +142,8 @@ def deposit():
     while True:
         try:
             deposit_amount = int(input("Amount($): \n"))
-            if deposit_amount > 50000:
-                print(f"You entered {deposit_amount}, Deposit limit is 50000")
+            if deposit_amount > 2000:
+                print(f"\nYou entered {deposit_amount}, Deposit limit is 2000")
                 continue
             break
         except ValueError:
@@ -173,8 +179,8 @@ def withdrawal():
     while True:
         try:
             withdrawal_amount = int(input("Amount($): \n"))
-            if withdrawal_amount > 50000:
-                print(f"\nWithdraw limit is 50000")
+            if withdrawal_amount > 2000:
+                print(f"\nWithdraw limit is 2000")
                 continue
             break
 
@@ -206,7 +212,7 @@ def check_balance():
     return get_balance
 
 
-def update_information_worksheet(data):
+def update_worksheet(data):
     """
     This function gets customers details
     and transaction, then updates the
@@ -216,31 +222,30 @@ def update_information_worksheet(data):
     information_worksheet.append_row(data)
 
 
+def exit():
+    main()
+
+
 def main():
     """
     Runs all the functions in the program
     """
+    # Prints a welcome message
+    print("\n************************")
+    print("Welcome to ATTEMPT BANK")
+    print("************************/n")
+    print("You have $2000 as your balance. Thank you!")
     customer_details = register_customer()
-
     customer_intention()
+
     initial_deposit = 2000
     initial_balance = 2000
 
-    
-    #balance_to_tuple = (initial_deposit + withdrawal_amount + initial_balance)
-
     data_for_spreadsheet = ()
     all_data = data_for_spreadsheet + customer_details + (initial_deposit,) + (withdrawal_amount,) + (initial_balance,)
-    print(all_data)
 
-    update_information_worksheet(all_data)
+    update_worksheet(all_data)
     
-
-
-# Prints a welcome message
-print("\n************************")
-print("Welcome to ATTEMPT BANK")
-print("************************")
 
 # starts running the program
 main()
