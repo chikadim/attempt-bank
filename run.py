@@ -19,12 +19,11 @@ SHEET = GSPREAD_CLIENT.open('attempt_bank')
 
 def register_customer():
 
-    #print(f"\nYou are welcome {customer_name}!")
     while True:
         try:
 
             customer_name = input("\nEnter your name: \n")
-            if(not customer_name.isalpha()):
+            if (not customer_name.isalpha()):
                 print("Invalid. Please enter a valid name")
                 continue
 
@@ -36,8 +35,8 @@ def register_customer():
     while True:
         try:
 
-            customer_gender = input("\nEnter your gender(Male/Female/Others): \n")
-            if(not customer_gender.isalpha()):
+            customer_gender = input("\nEnter your gender(Male/Female/Any):\n")
+            if (not customer_gender.isalpha()):
                 print("Invalid. Please enter a valid gender")
                 continue
 
@@ -73,9 +72,7 @@ def register_customer():
 
     print(f"\nYou are welcome {customer_name}!")
     print(f"({customer_name}, {customer_gender}, {customer_age}years old)\n")
-    print(f"You have a starting balance of 2000. Enjoy!\n")
-
-
+    print("You have a starting balance of $2000. Thank you!")
 
     return customer_name, customer_gender, customer_age
 
@@ -128,7 +125,6 @@ def customer_intention():
                 print(f"You entered '{entered}', Please option are (1 - 4)\n")
         except ValueError:
             print(f"Invalid data, please try again.\n")
-            
 
 
 deposit_amount = 0
@@ -152,13 +148,13 @@ def deposit():
 
 def process_deposit():
     initial_balance = 0
-    
+
     get_information = SHEET.worksheet("information").get_all_values()
     get_last_row = get_information[-1]  # using slice to get the last row
     get_balance = int(get_last_row.pop())
 
     updated_balance = initial_balance + deposit_amount
-    
+
     balance_after_deposit = updated_balance + get_balance
 
     print("\nUpdating your account balance...\n")
@@ -203,7 +199,6 @@ def process_withdrawal():
     print("Goodbye!\n")
 
 
-
 def check_balance():
     get_information = SHEET.worksheet("information").get_all_values()
     get_last_row = get_information[-1]  # using slice to get the last row
@@ -233,8 +228,7 @@ def main():
     # Prints a welcome message
     print("\n************************")
     print("Welcome to ATTEMPT BANK")
-    print("************************/n")
-    print("You have $2000 as your balance. Thank you!")
+    print("************************\n")
     customer_details = register_customer()
     customer_intention()
 
@@ -242,11 +236,11 @@ def main():
     initial_balance = 2000
 
     data_for_spreadsheet = ()
-    all_data = data_for_spreadsheet + customer_details + (initial_deposit,) + (withdrawal_amount,) + (initial_balance,)
+    all_data = data_for_spreadsheet + customer_details + (withdrawal_amount,)
+    all_data += (initial_deposit,) + (initial_balance,)
 
     update_worksheet(all_data)
-    
+
 
 # starts running the program
 main()
-
