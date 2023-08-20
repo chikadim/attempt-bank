@@ -1,10 +1,10 @@
+
 import gspread
 from google.oauth2.service_account import Credentials
 
-"""
-Connect spreadsheet to python to retrieve and update
-customer details and transactions
-"""
+
+# Connect spreadsheet to python to retrieve and update
+# customer details and transactions
 SCOPE = [
     "https://www.googleapis.com/auth/spreadsheets",
     "https://www.googleapis.com/auth/drive.file",
@@ -17,12 +17,9 @@ GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open('attempt_bank')
 
 
-"""
-A function to take details from customer and 
-register the customer
-"""
 def register_customer():
 
+    #print(f"\nYou are welcome {customer_name}!")
     while True:
         try:
 
@@ -33,7 +30,7 @@ def register_customer():
 
         except ValueError:
             print("Invalid. Please enter a valid name")
-            
+
         break
 
     while True:
@@ -57,7 +54,7 @@ def register_customer():
         except ValueError:
             print("Invalid. ")
             continue
-            
+
         break
 
     while True:
@@ -73,24 +70,25 @@ def register_customer():
             print("You must be 18years and above")
             continue
         break
-    
+
     print(f"\nYou are welcome {customer_name}!")
     print(f"({customer_name}, {customer_gender}, {customer_age}years old)")
 
     return customer_name, customer_gender, customer_age
-    
 
-"""
-This function allows a customer to make transactions
-Checks the transaction selected by the user and
-validates the input
-"""
-# Declaring a global list to hold customer intention so
+
+# Declaring a list to hold customer intention so
 # i can loop through them to determine the option a
 # user selected and act base on the selection
 entered_list = []
 
+
 def customer_intention():
+    """
+    This function allows a customer to make transactions
+    Checks the transaction selected by the user and
+    validates the input
+    """
     while True:
         print(f"\nWhat would you like to do?\n")
 
@@ -102,78 +100,148 @@ def customer_intention():
         try:
             entered = int(input("Enter option: "))
             entered_list.append(entered)
-            
+
             if entered == 1:
-                print("\nHow much would you like to deposit? (Maximum of 50000)")
+                print("\nHow much would you like to deposit?(Max of 50000)")
+                deposit()
+                process_deposit()
                 break
             elif entered == 2:
-                print("\nHow much would you like to withdraw? (Maximum of 50000)")
+                print("\nHow much would you like to withdraw?(Max of 50000)")
+                withdrawal()
+                process_withdrawal()
                 break
             elif entered == 3:
-                print("\nYour balance is ")
+                print("\nYour balance is")
+                check_balance()
                 break
             elif entered == 4:
                 print("\nExit")
                 break
             else:
-                print(f"You entered '{entered}', Please enter a valid option (1 - 4)\n")     
-                
+                print(f"You entered '{entered}', Please option are (1 - 4)\n")
         except ValueError:
             print(f"Invalid data, please try again.\n")
+            break
 
 
-"""
-Handles the deposits of customers
-"""
+deposit_amount = 0
+
+
 def deposit():
-    initial_balance = 0
-    account_balance = 0
-
+    """
+    Handles the deposits of customers
+    """
+    global deposit_amount
     while True:
         try:
-            amount = int(input("Amount($): \n"))
-            if amount > 50000:
-                print(f"You entered {amount}, Maximum amount is 50000")
+            deposit_amount = int(input("Amount($): \n"))
+            if deposit_amount > 50000:
+                print(f"You entered {deposit_amount}, Deposit limit is 50000")
                 continue
-            break   
+            break
+        except ValueError:
+            print("Invalid amount. Try again")
+
+
+def process_deposit():
+    initial_balance = 0
+    
+    get_information = SHEET.worksheet("information").get_all_values()
+    get_last_row = get_information[-1]  # using slice to get the last row
+    get_balance = int(get_last_row.pop())
+
+    updated_balance = initial_balance + deposit_amount
+    
+    balance_after_deposit = updated_balance + get_balance
+
+    print("\nUpdating your account balance...\n")
+    print(f"Your account has been credited with ${deposit_amount}\n")
+    print(f"Your new balance is ${balance_after_deposit}\n")
+
+    print("Goodbye!\n")
+
+
+withdrawal_amount = 0
+
+
+def withdrawal():
+    """
+    This function handles withdrawals
+    """
+    global withdrawal_amount
+    while True:
+        try:
+            withdrawal_amount = int(input("Amount($): \n"))
+            if withdrawal_amount > 50000:
+                print(f"\nWithdraw limit is 50000")
+                continue
+            break
 
         except ValueError:
             print("Invalid amount. Try again")
 
-    for enter in range(len(entered_list)):
-        if entered_list[enter] == 1:
 
-            updated_balance = initial_balance + amount
-            account_balance += updated_balance
+def process_withdrawal():
 
-            print("\nUpdating your account balance...\n")
-            print(f"Your account has been credited with the sum of: ${updated_balance}\n")
-            print("Bye!\n")
+    get_information = SHEET.worksheet("information").get_all_values()
+    get_last_row = get_information[-1]  # using slice to get the last row
+    get_balance = int(get_last_row.pop())
 
-            break
+    new_balance = get_balance - withdrawal_amount
 
-    return updated_balance
+    print("\nProcessing...\n")
+    print(f"${withdrawal_amount} has been debited from your account\n")
+    print(f"Your new balance is ${new_balance}\n")
+
+    print("Goodbye!\n")
 
 
-"""
-Runs all the functions in the program
-"""
+
+def check_balance():
+    get_information = SHEET.worksheet("information").get_all_values()
+    get_last_row = get_information[-1]  # using slice to get the last row
+    get_balance = int(get_last_row.pop())
+
+    return get_balance
+
+
+def update_information_worksheet(data):
+    """
+    This function gets customers details
+    and transaction, then updates the
+    google spreadsheet
+    """
+    information_worksheet = SHEET.worksheet("information")
+    information_worksheet.append_row(data)
+
+
 def main():
+    """
+    Runs all the functions in the program
+    """
     customer_details = register_customer()
+
     customer_intention()
-    updated_balance = deposit()
+    initial_deposit = 2000
+    initial_balance = 2000
+
+    
+    #balance_to_tuple = (initial_deposit + withdrawal_amount + initial_balance)
+
+    data_for_spreadsheet = ()
+    all_data = data_for_spreadsheet + customer_details + (initial_deposit,) + (withdrawal_amount,) + (initial_balance,)
+    print(all_data)
+
+    update_information_worksheet(all_data)
+    
 
 
-"""
-Prints a welcome message
-"""
+# Prints a welcome message
 print("\n************************")
 print("Welcome to ATTEMPT BANK")
-print("************************\n")
+print("************************")
 
-
-"""
-Call the main function to 
-start running the program
-"""
+# starts running the program
 main()
+
