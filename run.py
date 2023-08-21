@@ -18,11 +18,15 @@ SHEET = GSPREAD_CLIENT.open('attempt_bank')
 
 
 def register_customer():
-
+    """
+    This function collects details from a user,
+    validates the inputs, handles errors and retun
+    the entered details
+    """
     while True:
         try:
 
-            customer_name = input("\nEnter your name: \n")
+            customer_name = input("Enter your name: \n")
             if (not customer_name.isalpha()):
                 print("Invalid. Please enter a valid name")
                 continue
@@ -44,8 +48,8 @@ def register_customer():
                 print("I am Male")
             elif customer_gender == "Female":
                 print("I am Female")
-            elif customer_gender == "Others":
-                print("I am Others")
+            elif customer_gender == "Any":
+                print("I am Any")
             else:
                 print("Enter a valid Gender")
                 continue
@@ -72,7 +76,7 @@ def register_customer():
 
     print(f"\nYou are welcome {customer_name}!")
     print(f"({customer_name}, {customer_gender}, {customer_age}years old)\n")
-    print("You have a starting balance of $2000. Thank you!")
+    print("You have a starting balance of $2000. Enjoy!")
 
     return customer_name, customer_gender, customer_age
 
@@ -86,11 +90,11 @@ entered_list = []
 def customer_intention():
     """
     This function allows a customer to make transactions
-    Checks the transaction selected by the user and
-    validates the input
+    Checks the transaction selected by the user, validates
+    the input and calls the neccessary functions
     """
     while True:
-        print(f"\nWhat would you like to do?\n")
+        print(f"\nWhat would you like to do?")
 
         print("Enter 1 to Deposit")
         print("Enter 2 to Withdraw")
@@ -98,7 +102,7 @@ def customer_intention():
         print("Enter 4 to Exit\n")
 
         try:
-            entered = int(input("Enter option: "))
+            entered = int(input("Enter option: \n"))
             entered_list.append(entered)
 
             if entered == 1:
@@ -132,7 +136,7 @@ deposit_amount = 0
 
 def deposit():
     """
-    Handles the deposits of customers
+    Handles the deposits input of users
     """
     global deposit_amount
     while True:
@@ -147,6 +151,9 @@ def deposit():
 
 
 def process_deposit():
+    """
+    Processes the deposit transaction
+    """
     initial_balance = 0
 
     get_information = SHEET.worksheet("information").get_all_values()
@@ -158,7 +165,7 @@ def process_deposit():
     balance_after_deposit = updated_balance + get_balance
 
     print("\nUpdating your account balance...\n")
-    print(f"Your account has been credited with ${deposit_amount}\n")
+    print(f"Your account has been credited with ${deposit_amount}")
     print(f"Your new balance is ${balance_after_deposit}\n")
 
     print("Goodbye!\n")
@@ -169,7 +176,8 @@ withdrawal_amount = 0
 
 def withdrawal():
     """
-    This function handles withdrawals
+    This function takes the withdrawals
+    inputs and validates it
     """
     global withdrawal_amount
     while True:
@@ -185,6 +193,10 @@ def withdrawal():
 
 
 def process_withdrawal():
+    """
+    This processes the withdrawals
+    and returns the balance
+    """
 
     get_information = SHEET.worksheet("information").get_all_values()
     get_last_row = get_information[-1]  # using slice to get the last row
@@ -193,7 +205,7 @@ def process_withdrawal():
     new_balance = get_balance - withdrawal_amount
 
     print("\nProcessing...\n")
-    print(f"${withdrawal_amount} has been debited from your account\n")
+    print(f"${withdrawal_amount} has been debited from your account")
     print(f"Your new balance is ${new_balance}\n")
 
     print("Goodbye!\n")
@@ -218,6 +230,10 @@ def update_worksheet(data):
 
 
 def exit():
+    """
+    Calls the main function when
+    a user selects the exit option
+    """
     main()
 
 

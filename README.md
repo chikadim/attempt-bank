@@ -9,11 +9,14 @@ This is a little Bank application done that allows users to attempt a few transa
     - [User stories](#user-stories)
     - [Structure of the application](#structure-of-the-website)
 - [Features](#features)
+    [Existing features](#existing-features)
     - [Register](#register)
     - [Deposit](#deposit)
     - [Withdrawal](#withdrawal)
     - [Check Balance](#check-balance)
     - [Update Spreadsheet](#update-spreadsheet)
+    [Future features](#future-features)
+- [Credits](#credits)
 
     
 ## UX
@@ -35,6 +38,8 @@ This is a little Bank application done that allows users to attempt a few transa
 ## Features
 
 This application is a banking system that allows the users the ability to make deposit, withdrawal or check balance. And the transaction records are stored in a google spreadsheet with the help of its `Google Drive API` and `Google Sheets API`.
+
+### Existing Features
 - ### Register
 The application welcomes and requests the user to enter few details like their Names, Gender and Age. Then this information is stored to the connected google spreadsheet.
 After registration the user receives an initial credit of $2000.
@@ -47,6 +52,10 @@ This application provides the user the ability to check their balance as well. T
 
 - ### Update Spreadsheet
 The spreadsheet is used to store and retrieve the user details and transaction records.
+
+### Future Features
+keep users signed in until they select exit
+Users to be able to see all their transaction records
 
 ### Deployment
 
@@ -66,7 +75,14 @@ Next, go to the Deploy tab, select deployment method, and deploy.
 [Back to Table of contents](#table-of-contents)
 
 ### Testing
-The code was tested in CI Python Linter againt whitespaces
+The code was manually tested doing the following:
+
+- Run the code through PEP8 Python Linter. This helped in removing trailing whitespaces
+- Removed blank lines at various lines
+- It helped to reduce lines that are too long
 
 
+## Credits
 
+- Code Institute for the deployment terminal
+- Google for some research
