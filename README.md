@@ -1,5 +1,5 @@
 # ATTEMPT BANK
-This is a little Bank application done that allows users to attempt a few transactions from users who are likely to become our customers. It takes few personal details to register the user and send the information to a google worksheet that is connected through its API. It allows customers to deposit, withdraw or check balance and it updates the spreadsheet with customer details and information about each transaction made.
+This is a little Bank application that allows users to attempt a few transactions. It takes few personal details to register the user and send the information to a google spreadsheet that is connected through its API. It allows customers to deposit, withdraw or check balance and it updates the spreadsheet with customer details and information about each transaction made.
 
 
 ## Table of Contents
