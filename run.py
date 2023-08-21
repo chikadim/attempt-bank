@@ -87,12 +87,21 @@ def register_customer():
 entered_list = []
 
 
-def customer_intention():
+def customer_goal():
     """
-    This function allows a customer to make transactions
-    Checks the transaction selected by the user, validates
+    This function updates spreadsheet with
+    customers details, offers transaction options and
+    checks option selected by the user, validates
     the input and calls the neccessary functions
     """
+    customer_details = register_customer()
+    initial_deposit = 2000
+
+    data_of_customers = ()
+    all_data = data_of_customers + customer_details + (initial_deposit,)
+
+    update_customers_worksheet(all_data)
+
     while True:
         print(f"\nWhat would you like to do?")
 
@@ -152,23 +161,42 @@ def deposit():
 
 def process_deposit():
     """
-    Processes the deposit transaction
+    Processes the deposit transaction and updates
+    the transactions worksheet with the new balance
     """
     initial_balance = 0
+    withdrawal = 0
 
-    get_information = SHEET.worksheet("information").get_all_values()
+    get_information = SHEET.worksheet("customers").get_all_values()
     get_last_row = get_information[-1]  # using slice to get the last row
-    get_balance = int(get_last_row.pop())
+    get_initial_deposit = int(get_last_row.pop())
 
     updated_balance = initial_balance + deposit_amount
 
-    balance_after_deposit = updated_balance + get_balance
+    balance_after_deposit = get_initial_deposit + updated_balance
 
     print("\nUpdating your account balance...\n")
-    print(f"Your account has been credited with ${deposit_amount}")
+    print(f"Your account has been credited with ${updated_balance}")
     print(f"Your new balance is ${balance_after_deposit}\n")
 
     print("Goodbye!\n")
+
+    transaction_details = ()
+    update_worksheet = transaction_details + (balance_after_deposit,)
+    update_worksheet += (withdrawal,)
+
+    update_transactions_worksheet(update_worksheet)
+
+
+
+def update_transactions_worksheet(data):
+    """
+    This function gets customers details
+    and transaction, then updates the
+    google spreadsheet
+    """
+    worksheet = SHEET.worksheet("transactions")
+    worksheet.append_row(data)
 
 
 withdrawal_amount = 0
@@ -212,21 +240,21 @@ def process_withdrawal():
 
 
 def check_balance():
-    get_information = SHEET.worksheet("information").get_all_values()
+    get_information = SHEET.worksheet("customers").get_all_values()
     get_last_row = get_information[-1]  # using slice to get the last row
     get_balance = int(get_last_row.pop())
 
     return get_balance
 
 
-def update_worksheet(data):
+def update_customers_worksheet(data):
     """
     This function gets customers details
     and transaction, then updates the
     google spreadsheet
     """
-    information_worksheet = SHEET.worksheet("information")
-    information_worksheet.append_row(data)
+    worksheet = SHEET.worksheet("customers")
+    worksheet.append_row(data)
 
 
 def exit():
@@ -245,18 +273,7 @@ def main():
     print("\n************************")
     print("Welcome to ATTEMPT BANK")
     print("************************\n")
-    customer_details = register_customer()
-    customer_intention()
-
-    initial_deposit = 2000
-    initial_balance = 2000
-
-    data_for_spreadsheet = ()
-    all_data = data_for_spreadsheet + customer_details + (withdrawal_amount,)
-    all_data += (initial_deposit,) + (initial_balance,)
-
-    update_worksheet(all_data)
-
+    customer_goal()
 
 # starts running the program
 main()
