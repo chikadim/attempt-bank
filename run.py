@@ -188,7 +188,6 @@ def process_deposit():
     update_transactions_worksheet(update_worksheet)
 
 
-
 def update_transactions_worksheet(data):
     """
     This function gets customers details
@@ -225,8 +224,9 @@ def process_withdrawal():
     This processes the withdrawals
     and returns the balance
     """
+    deposit = 0
 
-    get_information = SHEET.worksheet("information").get_all_values()
+    get_information = SHEET.worksheet("customers").get_all_values()
     get_last_row = get_information[-1]  # using slice to get the last row
     get_balance = int(get_last_row.pop())
 
@@ -237,6 +237,12 @@ def process_withdrawal():
     print(f"Your new balance is ${new_balance}\n")
 
     print("Goodbye!\n")
+
+    transaction_details = ()
+    update_worksheet = transaction_details + (deposit,)
+    update_worksheet += (new_balance,)
+
+    update_transactions_worksheet(update_worksheet)
 
 
 def check_balance():
@@ -274,6 +280,7 @@ def main():
     print("Welcome to ATTEMPT BANK")
     print("************************\n")
     customer_goal()
+
 
 # starts running the program
 main()
