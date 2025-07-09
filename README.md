@@ -41,7 +41,7 @@ This application is a banking system that allows the users the ability to make d
 
 ### Existing Features
 ### Register
-The application welcomes and requests the user to enter few details like their Names, Gender and Age. Then this information is stored to the connected google spreadsheet. It is saved in the customers worksheet.
+The application welcomes and requests the user to enter few details like their Names, Gender and Age. Then this information is stored to the connected google spreadsheet. It is saved in the customers' worksheet.
 After registration the user receives an initial credit of $2000.
 ### Deposit
 When a user makes a deposit, the amount deposited is added to the initial deposit. The transaction is then updated to the transaction worksheet and displayed to the user. It allows up to 2000 as a maximum deposit.
