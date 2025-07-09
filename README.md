@@ -54,7 +54,7 @@ This application provides the user the ability to check their balance as well. T
 The spreadsheet is used to store and retrieve the user details and transaction records.
 
 ### Future Features
-keep users signed in until they select exit.
+keep users signed in until they select exit to leave.
 Users to be able to see all their transaction records.
 
 ### Deployment
