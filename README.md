@@ -22,7 +22,7 @@ This is a little Bank application that allows users to attempt a few transaction
 ## UX
 
 ### User goals
-   - Application owner goals.
+   - Application owner goals
    - We built this application to provide the users a mock Bank to attempt some transactions like an ATM Machine.
    - It is done with the users in mind. It is well planned and programmed to give the user a wonderful experience for the fun of it.
  
