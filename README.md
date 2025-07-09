@@ -29,7 +29,7 @@ This is a little Bank application that allows users to attempt a few transaction
 ### User stories
    - To be able to practice the act of saving by depositing into ATTEMPT BANK.
    - A User can also make withdrawals.
-   - They can also be able to view their balance.
+   - They can also be able to view their account balance.
 
 ### User stories as a customer
    - I would like to register on the application to see how the transactions are made.
