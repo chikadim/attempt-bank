@@ -70,7 +70,7 @@ Add two _Buildpacks_ and they must be in the order as follows:
 1. `heroku/python`
 2. `heroku/nodejs`
 
-Next, go to the Deploy tab, select deployment method, and deploy.
+Next, go to the Deploy tab, select deployment method, and then deploy.
 
 
 [Back to Table of contents](#table-of-contents)
