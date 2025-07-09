@@ -32,7 +32,7 @@ This is a little Bank application that allows users to attempt a few transaction
    - They can also be able to view their account balance.
 
 ### User stories as a customer
-   - I would like to register on the application to see how the transactions are made.
+   - I would like to register in the application to see how the transactions are made.
    - What about giving ideas and sharing information with the programmer.
 
 ## Features
